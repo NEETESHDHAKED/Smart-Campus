@@ -1,0 +1,8 @@
+<h2 style="text-align:center;font-family:sans-serif">📋 Attendance List</h2>
+<table border="1" style="width:90%;margin:auto;text-align:center;font-family:sans-serif;border-collapse:collapse">
+<tr style="background:#667eea;color:white"><th>Name</th><th>Roll</th><th>Status</th><th>Time</th></tr>
+{% for s in students %}
+<tr><td>{{ s.name }}</td><td>{{ s.roll }}</td><td>✅ Present</td><td>10:24 AM</td></tr>
+{% endfor %}
+</table>
+<br><center><a href="/">Home</a></center>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><body style="font-family:Arial;padding:20px">
+<h2>Add Student</h2>
+<form method="POST">
+{% csrf_token %}
+<input name="name" placeholder="Naam" required><br><br>
+<input name="roll" placeholder="Roll No" required><br><br>
+<input name="branch" placeholder="Branch CSE/ECE"><br><br>
+<input name="phone" placeholder="Phone"><br><br>
+<button style="background:#6c5ce7;color:white;padding:10px 20px;border:none;border-radius:10px">Add Karo</button>
+</form>
+<br><a href="/">Wapas Jao</a>
+</body></html>

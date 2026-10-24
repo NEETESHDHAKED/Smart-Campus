@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Attendance</title>
+<style>
+body{font-family:Arial;background:#f4f4f4;padding:20px}
+.card{background:white;padding:15px;border-radius:12px;margin-bottom:15px;box-shadow:0 2px 8px #ccc}
+button{background:#111;color:white;padding:10px 15px;border:none;border-radius:8px;margin-top:8px}
+video{width:100%;border-radius:10px;display:none}
+.msg{background:yellow;padding:10px;border-radius:8px;margin-bottom:15px}
+</style>
+</head>
+<body>
+
+<h2>Smart Attendance</h2>
+<p>Student: {{ request.session.roll }} | <a href="/logout/">Logout</a></p>
+
+{% if msg %}<div class="msg">{{ msg }}</div>{% endif %}
+
+{% for s in students %}
+<div class="card">
+<h3>{{ s.name }} - {{ s.roll }}</h3>
+<p>{{ s.branch }}</p>
+
+<!-- CAMERA -->
+<video id="cam{{ s.roll }}" autoplay playsinline></video>
+<canvas id="can{{ s.roll }}" style="display:none"></canvas>
+
+<!-- FORM -->
+<form method="POST" action="/attendance/{{ s.roll }}/" onsubmit="return fillLoc(this, '{{ s.roll }}')">
+{% csrf_token %}
+<input type="hidden" name="face_photo" id="face{{ s.roll }}">
+<input type="hidden" name="latitude" id="lat{{ s.roll }}">
+<input type="hidden" name="longitude" id="lon{{ s.roll }}">
+
+<button type="button" onclick="openCam('{{ s.roll }}')">Open Camera</button>
+<button type="button" onclick="capture('{{ s.roll }}')">📷 Click Photo</button>
+<br><br>
+<button type="submit">✅ Attendance Lagao</button>
+</form>
+</div>
+{% endfor %}
+
+<script>
+let stream = null;
+
+function openCam(roll){
+  let v = document.getElementById('cam'+roll);
+  v.style.display='block';
+  navigator.mediaDevices.getUserMedia({video:true}).then(s=>{
+    stream=s; v.srcObject=s;
+  }).catch(e=>alert('Camera nahi khula - Allow do'));
+}
+
+function capture(roll){
+  let v=document.getElementById('cam'+roll);
+  let c=document.getElementById('can'+roll);
+  c.width=v.videoWidth; c.height=v.videoHeight;
+  c.getContext('2d').drawImage(v,0,0);
+  let photo=c.toDataURL('image/jpeg',0.5);
+  document.getElementById('face'+roll).value=photo;
+  alert('Photo Khich Gaya! Ab Attendance Lagao');
+  if(stream){ stream.getTracks().forEach(t=>t.stop()); }
+  v.style.display='none';
+}
+
+function fillLoc(form, roll){
+  if(!document.getElementById('face'+roll).value){
+    alert('Pehle Photo Khicho! 📸');
+    return false;
+  }
+  if(!document.getElementById('lat'+roll).value){
+    alert('Location le raha hu... 2 sec ruk - fir se dabao');
+    navigator.geolocation.getCurrentPosition(p=>{
+      document.getElementById('lat'+roll).value=p.coords.latitude;
+      document.getElementById('lon'+roll).value=p.coords.longitude;
+      form.submit();
+    }, ()=>alert('Location ON Karo! 📍'));
+    return false;
+  }
+  return true;
+}
+</script>
+
+</body>
+</html>

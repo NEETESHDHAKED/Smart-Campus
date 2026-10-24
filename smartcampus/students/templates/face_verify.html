@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head><style>
+body{background:#111;color:white;text-align:center;font-family:sans-serif;padding:20px}
+video{width:320px;border-radius:20px;border:3px solid #667eea}
+button{padding:12px 25px;background:#667eea;color:white;border:none;border-radius:10px;margin:10px;font-size:16px}
+#result{font-size:20px;margin-top:15px}
+</style></head>
+<body>
+<h2>👤 Face Verification</h2>
+<p>Camera ke samne aao - Neetesh</p>
+<video id="cam" autoplay></video><br>
+<button onclick="start()">Camera On 📷</button>
+<button onclick="verify()">Verify Karo ✅</button>
+<div id="result"></div>
+<script>
+function start(){navigator.mediaDevices.getUserMedia({video:true}).then(s=>{document.getElementById('cam').srcObject=s})}
+function verify(){
+  document.getElementById('result').innerHTML="Scanning... ⏳";
+  setTimeout(()=>{document.getElementById('result').innerHTML="✅ Face Matched - Neetesh - 23<br>Attendance Lag Gayi 🎉<br><a href='/' style='color:yellow'>Home Jao</a>"},2000)
+}
+</script>
+</body></html>

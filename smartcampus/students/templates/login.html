@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family: 'Segoe UI', sans-serif}
+  body{
+    height:100vh;
+    display:flex;justify-content:center;align-items:center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    /* agar photo wala chahiye toh niche wali line use kar */
+    /* background: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000') no-repeat center/cover; */
+  }
+  .card{
+    background:white;
+    width:360px;
+    padding:35px 30px;
+    border-radius:20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    text-align:center;
+  }
+  .logo{font-size:50px}
+  h2{color:#333;margin:10px 0 5px}
+  p{color:#777;font-size:14px;margin-bottom:20px}
+  input{
+    width:100%;padding:14px;margin:10px 0;
+    border:2px solid #eee;border-radius:12px;
+    font-size:16px;outline:none;
+  }
+  input:focus{border-color:#667eea}
+  button{
+    width:100%;padding:14px;margin-top:10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color:white;border:none;border-radius:12px;
+    font-size:17px;font-weight:bold;cursor:pointer;
+  }
+  button:hover{transform:scale(1.02)}
+  .error{background:#ffebee;color:red;padding:10px;border-radius:10px;margin-bottom:10px}
+  a{color:#667eea;text-decoration:none;font-size:14px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🎓</div>
+    <h2>Smart Campus</h2>
+    <p>Login + Face Verification</p>
+
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="roll" placeholder="Roll Number daalo - jaise 23" required>
+      <input type="password" name="password" placeholder="Password" >
+      <button>Login Karo 🚀</button>
+    </form>
+    <br>
+    <a href="/">← Wapas Home</a>
+  </div>
+</body>
+</html>
